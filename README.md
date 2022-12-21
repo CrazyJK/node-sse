@@ -28,4 +28,7 @@ destination is not empty, continue? [y/N] y
 
    run the app:
      > SET DEBUG=node-sse:* & npm start
+  "scripts": {
+    "start": "SET DEBUG=node-sse:* & node ./bin/www"
+  },
 ```
