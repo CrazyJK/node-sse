@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "SET DEBUG=node-sse:* & node ./bin/www"
+    "start": "export DEBUG=node-sse:* & node ./bin/www",
+    "dev": "export DEBUG=node-sse:* & nodemon ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

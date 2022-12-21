@@ -1,4 +1,6 @@
-var debug = require('debug')('node-sse:sse');
+/**
+ * Server-Sent-Event
+ */
 
 const SSE_RESPONSE_HEADER = {
   'Connection': 'keep-alive',
@@ -14,7 +16,7 @@ const getUserId = (req) => {
     if (Boolean(req.params) && req.params.userId) return req.params.userId;
     return null
   } catch (e) {
-    debug('getUserId error', e)
+    console.error('getUserId error', e)
     return null;
   }
 }
@@ -38,7 +40,7 @@ exports.accept = (req, res, next) => {
 
   // Stores this connection
   usersStreams.set(userKey, { res, lastInteraction: null });
-  debug('connect', userKey, usersStreams.keys());
+  console.log('connect', userKey, usersStreams.keys());
 
   // Writes response header.
   res.writeHead(200, SSE_RESPONSE_HEADER);
@@ -60,13 +62,13 @@ exports.accept = (req, res, next) => {
   // close event
   req.on("close", function () {
     // let userId = getUserId(req, 'setupStream on close');
-    debug('close', userKey);
+    console.log('close', userKey);
     // Breaks the interval loop on client disconnected
     clearInterval(intervalId);
     // Remove from connections
     usersStreams.delete(userKey);
 
-    debug('closed', userKey, usersStreams.keys());
+    console.log('closed', userKey, usersStreams.keys());
   });
 };
 
@@ -88,7 +90,7 @@ exports.sendStream = async (userid, type, data) => {
       res.write(`event: ${type}\ndata: ${JSON.stringify(data)}\n\n`);
       val.lastInteraction = Date.now();
 
-      debug(`sent ${key} : ${JSON.stringify(data)}`);
+      console.log('sent', key, data);
     }
   });
 };
@@ -105,7 +107,7 @@ exports.send = (req, res, next) => {
     next({ message: 'send.no-data' })
     return;
   }
-  debug('receive', reqBody);
+  console.log('receive', reqBody);
 
   const typeAndId = reqBody.id.split('_'); // notify_001000106
   const type = typeAndId[0]; // notify
@@ -113,7 +115,7 @@ exports.send = (req, res, next) => {
   const data = reqBody.data; // {...}
 
   this.sendStream(id, type, data);
-  debug('called sendStream', id, type, data);
+  console.log('called sendStream', id, type, data);
 
   res.send(`received: ${JSON.stringify(reqBody)}`);
 };

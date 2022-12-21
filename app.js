@@ -22,7 +22,7 @@ app.use('/users', usersRouter);
 
 // SSE
 app.get('/sse/:userId', sse.accept);
-app.post('/sse', sse.send);
+app.post('/webNotification', sse.send);
 
 // 등록되지 않은 패스에 대해 페이지 오류 응답
 app.all('*', function (req, res) {
