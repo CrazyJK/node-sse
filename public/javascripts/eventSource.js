@@ -1,4 +1,4 @@
-const es = new EventSource('/sse/001000106');
+const es = new EventSource('/sse');
 es.onmessage = function (e) {
   console.log(e, e.data);
 };

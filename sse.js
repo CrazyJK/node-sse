@@ -6,7 +6,9 @@ const SSE_RESPONSE_HEADER = {
   'Connection': 'keep-alive',
   'Content-Type': 'text/event-stream',
   'Cache-Control': 'no-cache',
-  'X-Accel-Buffering': 'no'
+  'X-Accel-Buffering': 'no',
+  'Access-Control-Allow-Origin': 'http://123.212.190.178:11000',
+  'Access-Control-Allow-Credentials': 'true'
 };
 
 const getUserId = (req) => {
@@ -14,6 +16,7 @@ const getUserId = (req) => {
     if (!req) return null;
     if (Boolean(req.body) && req.body.userId) return req.body.userId;
     if (Boolean(req.params) && req.params.userId) return req.params.userId;
+    if (req.cookies && req.cookies.userID) return req.cookies.userID;
     return null
   } catch (e) {
     console.error('getUserId error', e)
@@ -33,6 +36,7 @@ const usersStreams = new Map();
 exports.accept = (req, res, next) => {
   const userId = getUserId(req);
   if (!userId) {
+    console.error('accept.no-user');
     next({ message: 'accept.no-user' })
     return;
   }
@@ -103,19 +107,21 @@ exports.sendStream = async (userid, type, data) => {
  */
 exports.send = (req, res, next) => {
   const reqBody = req.body;
+  console.log('receive', reqBody, Object.keys(reqBody).length, Object.keys(reqBody)[0]);
   if (Object.keys(reqBody).length === 0 && reqBody.constructor === Object) {
     next({ message: 'send.no-data' })
     return;
   }
-  console.log('receive', reqBody);
 
-  const typeAndId = reqBody.id.split('_'); // notify_001000106
+  const bodyJson = JSON.parse(Object.keys(reqBody)[0]);
+
+  const typeAndId = bodyJson.id.split('_'); // notify_001000106
   const type = typeAndId[0]; // notify
   const id = typeAndId[1]; // 001000106
-  const data = reqBody.data; // {...}
+  const data = bodyJson.data; // {...}
 
   this.sendStream(id, type, data);
   console.log('called sendStream', id, type, data);
 
-  res.send(`received: ${JSON.stringify(reqBody)}`);
+  res.send(`received: ${JSON.stringify(bodyJson)}`);
 };

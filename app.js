@@ -21,6 +21,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // SSE
+app.get('/sse', sse.accept);
 app.get('/sse/:userId', sse.accept);
 app.post('/webNotification', sse.send);
 

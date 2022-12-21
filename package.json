@@ -2,6 +2,7 @@
   "name": "node-sse",
   "version": "0.1.0",
   "private": true,
+  "type": "commonjs",
   "scripts": {
     "start": "export DEBUG=node-sse:* & node ./bin/www",
     "dev": "export DEBUG=node-sse:* & nodemon ./bin/www"
