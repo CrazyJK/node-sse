@@ -2,12 +2,14 @@
  * Server-Sent-Event
  */
 
+const config = require('config');
+
 const SSE_RESPONSE_HEADER = {
   'Connection': 'keep-alive',
   'Content-Type': 'text/event-stream',
   'Cache-Control': 'no-cache',
   'X-Accel-Buffering': 'no',
-  'Access-Control-Allow-Origin': 'http://123.212.190.178:11000',
+  'Access-Control-Allow-Origin': config.get('header.Access-Control-Allow-Origin'),
   'Access-Control-Allow-Credentials': 'true'
 };
 
@@ -59,20 +61,20 @@ exports.accept = (req, res, next) => {
   let intervalId = setInterval(function () {
     if (!usersStreams.has(userKey)) return;
     if (Date.now() - usersStreams.get(userKey).lastInteraction < maxInterval) return;
-    res.write(`event: heartbeat\n\n`);
+    res.write(`event: heartbeat\ndata: ${Date.now()}\n\n`);
     usersStreams.get(userKey).lastInteraction = Date.now()
   }, interval);
 
-  // close event
+  // close event 
   req.on("close", function () {
     // let userId = getUserId(req, 'setupStream on close');
-    console.log('close', userKey);
+    console.log('close  ', userKey);
     // Breaks the interval loop on client disconnected
     clearInterval(intervalId);
     // Remove from connections
     usersStreams.delete(userKey);
 
-    console.log('closed', userKey, usersStreams.keys());
+    console.log('closed ', userKey, usersStreams.keys());
   });
 };
 
