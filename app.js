@@ -35,11 +35,6 @@ app.get('/sse', sse.accept);
 app.get('/sse/:userId', sse.accept);
 app.post('/webNotification', sse.send);
 
-// 등록되지 않은 패스에 대해 페이지 오류 응답
-app.all('*', function (req, res) {
-  res.status(404).send('<h1>ERROR - 페이지를 찾을 수 없습니다.</h1>');
-});
-
 app.listen(port, function () {
   console.log("Server starting... listen " + port);
 });

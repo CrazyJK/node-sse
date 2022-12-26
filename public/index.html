@@ -8,7 +8,27 @@
 
 <body>
   <h1>Notificator with SSE</h1>
-  <ol></ol>
+
+  <div class="row">
+    <div class="col">
+      <h4>Connect</h4>
+      <div>
+        <input type="text" id="userid" placeholder="type userid" />
+        <button type="button" onclick="callSse(this)">SSE</button>
+      </div>
+      <ol id="response" reversed></ol>
+    </div>
+    <div class="col">
+      <h4>Connected Users</h4>
+      <div>
+        <button type="button" onclick="getUsers()">Get</button>
+        <label id="userLength"></label>
+      </div>
+      <ol id="userList"></ol>
+    </div>
+  </div>
+
+
 </body>
 
 </html>

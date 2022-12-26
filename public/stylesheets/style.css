@@ -1,16 +1,31 @@
 body {
   padding: 50px;
-  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
+  font: 14px D2Coding, 'Lucida Grande', Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00b7ff;
 }
 
-ol {
-  font-family: D2Coding;
+.row {
+  display: flex;
 }
 
-li label:first-child {
+.col {
+  flex: 1 0 0%;
+}
+
+#response li label:first-child {
   padding-right: 1rem;
+}
+
+#userList {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#userList li {
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 4px;
 }

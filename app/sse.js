@@ -32,7 +32,7 @@ const getUserId = (req) => {
   }
 };
 
-const usersStreams = new Map();
+global.usersStreams = new Map();
 
 /**
  * sse 접속
@@ -45,7 +45,7 @@ exports.accept = (req, res, next) => {
   const userId = getUserId(req);
   if (!userId) {
     logger.error('accept.no-user');
-    next({ message: 'accept.no-user' });
+    next(new Errir('accept.no-user'));
     return;
   }
   const userKey = userId + '_' + Date.now();
@@ -116,7 +116,8 @@ exports.send = (req, res, next) => {
   const reqBody = req.body;
   logger.info('receive', reqBody, Object.keys(reqBody).length, Object.keys(reqBody)[0]);
   if (Object.keys(reqBody).length === 0 && reqBody.constructor === Object) {
-    next({ message: 'send.no-data' });
+    logger.error('send.no-data');
+    next(new Error('send.no-data'));
     return;
   }
 
