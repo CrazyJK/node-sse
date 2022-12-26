@@ -1,13 +1,31 @@
-const es = new EventSource('/sse');
-es.onmessage = function (e) {
+const eventSource = new EventSource('/sse/001000106');
+eventSource.onmessage = function (e) {
   console.log(e, e.data);
+  prependData(e.type, e.data);
 };
-es.addEventListener('connect', (e) => {
+eventSource.addEventListener('connect', (e) => {
   console.log(e.type, JSON.parse(e.data));
+  prependData(e.type, e.data);
 });
-es.addEventListener('heartbeat', (e) => {
+eventSource.addEventListener('heartbeat', (e) => {
   console.log(e.type, JSON.parse(e.data));
+  prependData(e.type, e.data);
 });
-es.addEventListener('notify', (e) => {
+eventSource.addEventListener('notify', (e) => {
   console.log(e.type, JSON.parse(e.data));
+  prependData(e.type, e.data);
 });
+
+function prependData(type, data) {
+  const li = document.createElement('li');
+  document.querySelector('ol').prepend(li);
+
+  const typeLabel = document.createElement('label');
+  typeLabel.innerHTML = type;
+
+  const dataLabel = document.createElement('label');
+  dataLabel.innerHTML = data;
+
+  li.appendChild(typeLabel);
+  li.appendChild(dataLabel);
+}

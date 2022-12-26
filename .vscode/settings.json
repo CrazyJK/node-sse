@@ -1,8 +1,9 @@
 {
+    "prettier.enable": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
     "editor.formatOnType": true,
     "editor.tabSize": 2,
-    "explorer.fileNesting.enabled": true,
-    "prettier.enable": true
+    "explorer.fileNesting.enabled": true
 }
