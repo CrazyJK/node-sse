@@ -22,10 +22,13 @@ a {
 #userList {
   display: flex;
   flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
 }
 
 #userList li {
-  border: 1px solid #eee;
+  border: 1px solid #ccc;
   border-radius: 4px;
+  margin: 2px;
   padding: 4px;
 }

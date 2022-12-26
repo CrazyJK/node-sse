@@ -4,8 +4,8 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "start": "export DEBUG=node-sse:* & node ./app",
-    "dev": "SET DEBUG=node-sse:* & nodemon ./app"
+    "start": "export NODE_ENV=production & node ./app",
+    "dev": "SET NODE_ENV=development& nodemon ./app"
   },
   "dependencies": {
     "config": "^3.3.8",
