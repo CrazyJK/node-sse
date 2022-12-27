@@ -3,7 +3,7 @@
 export NODE_ENV=production
 
 PID_FILE="./noti.pid"
-LOG_DIR="./log"
+LOG_DIR="./logs"
 SSE_NOHUP_LOG="$LOG_DIR/nohup.log"
 
 RUN_CMD="node ./app"
