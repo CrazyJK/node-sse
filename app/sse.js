@@ -67,7 +67,7 @@ const accept = (req, res, next) => {
 
   // Stores this connection
   userMap.set(userKey, { res, lastInteraction: Date.now() });
-  log.info('connect', userKey);
+  log.debug('connect', userKey);
 
   // Writes response header.
   res.writeHead(200, SSE_RESPONSE_HEADER);
@@ -141,7 +141,7 @@ const receive = (req, res, next) => {
     const data = bodyJson.data; // {...}
 
     publish(type, id, data).then(() => {
-      log.debug('published', type, id);
+      log.info('published', type, id);
     });
   }
 
@@ -164,7 +164,7 @@ const publish = async (type, userid, data) => {
       res.write(`event: ${type}\ndata: ${JSON.stringify(data)}\n\n`);
       val.lastInteraction = Date.now();
 
-      log.debug('publish', key, data);
+      log.info('publish', key, data);
     }
   });
 };
