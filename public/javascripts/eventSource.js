@@ -22,6 +22,10 @@ function callSse(btn) {
     console.log(e.type, JSON.parse(e.data));
     prependData(e.type, e.data);
   });
+  eventSource.addEventListener('appr', (e) => {
+    console.log(e.type, JSON.parse(e.data));
+    prependData(e.type, e.data);
+  });
 }
 
 function prependData(type, data) {

@@ -4,5 +4,11 @@
   },
   "header": {
     "Access-Control-Allow-Origin": "http://123.212.190.178:11000"
+  },
+  "log": {
+    "level": "debug"
+  },
+  "heartbeat": {
+    "activate": true
   }
 }

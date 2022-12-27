@@ -9,17 +9,10 @@ var config = require('config');
 // create a rotating write stream
 var accessLogStream = rfs.createStream('access.log', {
   interval: '1d', // rotate daily
-  path: path.join(__dirname, 'log')
+  path: path.join(__dirname, 'logs')
 });
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
-var sse = require('./app/sse');
-
 var app = express();
-var port = config.get('server.port');
-
 app.use(cors());
 app.use(morgan('combined', { stream: accessLogStream }));
 app.use(express.json());
@@ -27,14 +20,24 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 app.use("/", indexRouter);
 app.use('/users', usersRouter);
 
 // SSE
+var sse = require('./app/sse');
 app.get('/sse', sse.accept);
 app.get('/sse/:userId', sse.accept);
-app.post('/webNotification', sse.send);
+app.post('/webNotification', sse.receive);
 
-app.listen(port, function () {
-  console.log("Server starting... listen " + port);
+// configuation
+var port = config.get('server.port');
+var logLevel = config.get('log.level');
+var heatbeatActivate = config.get('heartbeat.activate');
+var headerAccessControlAllowOrigin = config.get('header.Access-Control-Allow-Origin');
+
+// start server
+app.listen(port, () => {
+  console.log(`Notificator SSE Server starting... listen ${port}!\n  NODE_ENV = ${process.env.NODE_ENV}\n  log.level = ${logLevel}\n  heartbeat.activate = ${heatbeatActivate}\n  headerAccessControlAllowOrigin = ${headerAccessControlAllowOrigin}`);
 });
