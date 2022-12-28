@@ -62,7 +62,7 @@ const accept = (req, res, next) => {
   const userId = getUserId(req);
   if (!userId) {
     log.error('accept.no-user');
-    next(new Errir('accept.no-user'));
+    next(new Error('accept.no-user'));
     return;
   }
 
