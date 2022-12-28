@@ -120,10 +120,15 @@ http://[Noti Server URL]/
 
 ## REF
 
-HTTP/1.1 VS HTTP/2
+### HTTP/1.1 VS HTTP/2
+
 https://ijbgo.tistory.com/26
 
-포트 접속 수 확인
+### eventsource polyfill
+
+https://cdnjs.com/libraries/eventsource-polyfill
+
+### 포트 접속 수 확인
 
     windows
         netstat -ano | findstr :3001
