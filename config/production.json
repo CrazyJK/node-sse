@@ -1,11 +1,20 @@
 {
-  "header": {
-    "Access-Control-Allow-Origin": "http://123.212.190.178:11000"
+  "server": {
+    "protocol": "http2",
+    "port": 3443,
+    "certificates": {
+      "ca": "cert/chainca.crt",
+      "key": "cert/STAR.handysoft.co.kr.key",
+      "cert": "cert/STAR.handysoft.co.kr.crt"
+    },
+    "log": {
+      "level": "debug"
+    }
   },
-  "log": {
-    "level": "info"
-  },
-  "heartbeat": {
-    "activate": false
+  "sse": {
+    "header": {
+      "Access-Control-Allow-Origin": "http://123.212.190.178:11000"
+    },
+    "heartbeat": false
   }
 }

@@ -1,34 +1,34 @@
-function callSse(btn) {
-  const userid = document.getElementById('userid').value;
-  if (userid.length === 0) {
-    return;
-  }
-  btn.style.display = 'none';
+let tmpUserNumber = 0;
 
-  const eventSource = new EventSource('/sse/' + userid);
-  eventSource.onmessage = function (e) {
-    console.log(e, e.data);
-    prependData(e.type, e.data);
-  };
-  eventSource.addEventListener('connect', (e) => {
-    console.log(e.type, JSON.parse(e.data));
-    prependData(e.type, e.data);
-  });
-  eventSource.addEventListener('heartbeat', (e) => {
-    console.log(e.type, JSON.parse(e.data));
-    prependData(e.type, e.data);
-  });
-  eventSource.addEventListener('notify', (e) => {
-    console.log(e.type, JSON.parse(e.data));
-    prependData(e.type, e.data);
-  });
-  eventSource.addEventListener('appr', (e) => {
-    console.log(e.type, JSON.parse(e.data));
-    prependData(e.type, e.data);
-  });
+function callMultiSse() {
+  const clientLength = Number(clientSize.value);
+  for (let i = 0; i < clientLength; i++) {
+    callSse();
+  }
 }
 
-function prependData(type, data) {
+function callSse(btn) {
+  let userid = document.getElementById('userid').value;
+  if (userid.length === 0) {
+    userid = 'user' + ++tmpUserNumber;
+  }
+  if (btn) {
+    btn.style.display = 'none';
+  }
+
+  const eventSource = new EventSource('/sse/' + userid);
+  eventSource.onmessage = prependData;
+  eventSource.addEventListener('connect', prependData);
+  eventSource.addEventListener('heartbeat', prependData);
+  eventSource.addEventListener('notify', prependData);
+  eventSource.addEventListener('appr', prependData);
+}
+
+function prependData(e) {
+  const type = e.type;
+  const data = e.data;
+  console.log(new Date(), type, data);
+
   const li = document.createElement('li');
   document.querySelector('#response').prepend(li);
 

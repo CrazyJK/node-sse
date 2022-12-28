@@ -114,3 +114,16 @@ eventSourceClient.js webNotifyProcess 함수에서 중복에 대해 처리는 �
 접속 테스트 및 접속자 목록 확인
 
 http://[Noti Server URL]/
+
+## REF
+
+HTTP/1.1 VS HTTP/2
+https://ijbgo.tistory.com/26
+
+포트 접속 수 확인
+
+    windows
+        netstat -ano | findstr :3001
+
+    linux
+        netstat -na | grep :443

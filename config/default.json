@@ -1,14 +1,25 @@
 {
   "server": {
-    "port": 3000
+    "available-protocols": [
+      "http",
+      "https",
+      "http2"
+    ],
+    "protocol": "http",
+    "port": 3000,
+    "certificates": {
+      "ca": "cert/***.crt",
+      "key": "cert/***.key",
+      "cert": "cert/***.crt"
+    },
+    "log": {
+      "level": "debug"
+    }
   },
-  "header": {
-    "Access-Control-Allow-Origin": "http://123.212.190.178:11000"
-  },
-  "log": {
-    "level": "debug"
-  },
-  "heartbeat": {
-    "activate": true
+  "sse": {
+    "header": {
+      "Access-Control-Allow-Origin": "http://123.212.190.178:11000"
+    },
+    "heartbeat": true
   }
 }

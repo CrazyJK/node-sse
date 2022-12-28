@@ -5,7 +5,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "export NODE_ENV=production& node ./app",
-    "dev": "SET NODE_ENV=development& nodemon ./app"
+    "dev": "SET NODE_ENV=development& nodemon --trace-warnings ./app"
   },
   "dependencies": {
     "config": "^3.3.8",
@@ -13,6 +13,7 @@
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "http2-express-bridge": "^1.0.7",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.20",
     "rotating-file-stream": "^3.0.4",

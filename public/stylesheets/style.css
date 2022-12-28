@@ -1,18 +1,19 @@
 body {
-  padding: 50px;
-  font: 14px D2Coding, 'Lucida Grande', Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00b7ff;
+  margin: 0;
+  padding: 3rem;
+  font: 0.875rem D2Coding, 'Lucida Grande', Helvetica, Arial, sans-serif;
 }
 
 .row {
   display: flex;
+  align-items: flex-start;
+  gap: 1rem;
 }
 
-.col {
+.row .col {
   flex: 1 0 0%;
+  border: 1px solid #eee;
+  padding: 1rem;
 }
 
 #response li label:first-child {
@@ -28,7 +29,7 @@ a {
 
 #userList li {
   border: 1px solid #ccc;
-  border-radius: 4px;
-  margin: 2px;
-  padding: 4px;
+  border-radius: 0.25rem;
+  margin: 0.125rem;
+  padding: 0.25rem;
 }

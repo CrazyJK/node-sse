@@ -6,9 +6,9 @@
 global.userMap = new Map();
 
 const config = require('config');
-const logLevel = config.get('log.level');
-const heatbeatActivate = config.get('heartbeat.activate');
-const headerAccessControlAllowOrigin = config.get('header.Access-Control-Allow-Origin');
+const logLevel = config.get('server.log.level');
+const sseHeartbeat = config.get('sse.heartbeat');
+const sseHeader = config.get('sse.header');
 
 const log = require('tracer').dailyfile({
   root: './logs',
@@ -20,14 +20,17 @@ const log = require('tracer').dailyfile({
 /**
  * SSE 발행을 위한 response header 정보
  */
-const SSE_RESPONSE_HEADER = {
-  'Connection': 'keep-alive',
+const SSE_RESPONSE_HEADER_DEFAULT = {
+  // 'Connection': 'keep-alive',
   'Content-Type': 'text/event-stream',
   'Cache-Control': 'no-cache',
   'X-Accel-Buffering': 'no',
-  'Access-Control-Allow-Origin': headerAccessControlAllowOrigin,
+  'Access-Control-Allow-Origin': 'header',
   'Access-Control-Allow-Credentials': 'true',
 };
+
+const SSE_RESPONSE_HEADER = { ...SSE_RESPONSE_HEADER_DEFAULT, ...sseHeader };
+console.log('SSE_RESPONSE_HEADER', SSE_RESPONSE_HEADER);
 
 /**
  * userId 구하기
@@ -77,7 +80,7 @@ const accept = (req, res, next) => {
 
   // Interval loop: heartbeat
   let heartbeatTimer = null;
-  if (heatbeatActivate) {
+  if (sseHeartbeat) {
     const MAX_INTERVAL = 1000 * 55;
     const INTERVAL_TIME = 1000 * 3;
     heartbeatTimer = setInterval(() => {
