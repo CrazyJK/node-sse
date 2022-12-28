@@ -8,7 +8,11 @@ $(document).ready(function () {
 		return;
 	}
 
-	var eventSource = new EventSource('http://123.212.190.178:3000/sse', {
+	var url = null;
+	url = 'http://123.212.190.178:3000/sse'; // was와 notificator가 같은 프로토콜일때
+	url = 'https://lucy.handysoft.co.kr:3443/sse/' + userID; // 프로토콜이 다를때, 쿠키전달이 안되므로
+
+	var eventSource = new EventSource(url, {
 		withCredentials: true
 	});
 	eventSource.addEventListener('connect', function (e) {

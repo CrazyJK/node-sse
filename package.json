@@ -7,6 +7,19 @@
     "start": "export NODE_ENV=production& node ./app",
     "dev": "SET NODE_ENV=development& nodemon --trace-warnings ./app"
   },
+  "nodemonConfig": {
+    "ignore": [
+      "cert/",
+      "logs/",
+      "public/"
+    ],
+    "watch": [
+      "app.js",
+      "app/",
+      "config/",
+      "routes/"
+    ]
+  },
   "dependencies": {
     "config": "^3.3.8",
     "cookie-parser": "~1.4.4",

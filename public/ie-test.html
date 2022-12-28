@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SSE IE Test</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/eventsource-polyfill/0.9.6/eventsource.min.js" integrity="sha512-2yFxlFMuyG+/BzPxBPJIqVDQtYXs/Vf/Y9TU37Cu3W8nMgXf+isJZM0OgWUS/wv9BypnST+Z3g36yLmnrSMoQQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="text/javascript">
+    // https://cdnjs.com/libraries/eventsource-polyfill
+    var eventSource = new EventSource('/sse/ietest');
+    eventSource.onmessage = prependData;
+    eventSource.addEventListener('connect', prependData);
+    eventSource.addEventListener('heartbeat', prependData);
+    eventSource.addEventListener('notify', prependData);
+    eventSource.addEventListener('appr', prependData);
+
+    function prependData(e) {
+      const type = e.type;
+      const data = e.data;
+      console.log(new Date(), type, data);
+
+      const li = document.createElement('li');
+      document.querySelector('#response').appendChild(li);
+
+      const typeLabel = document.createElement('label');
+      typeLabel.innerHTML = type;
+
+      const dataLabel = document.createElement('label');
+      dataLabel.innerHTML = data;
+
+      li.appendChild(typeLabel);
+      li.appendChild(dataLabel);
+    }
+
+    window.addEventListener('unload', function () {
+      eventSource.close();
+    });
+
+  </script>
+</head>
+
+<body>
+  <h4>IE SSE Test page</h4>
+
+  <div>
+    <ol id="response" reversed></ol>
+  </div>
+</body>
+
+</html>

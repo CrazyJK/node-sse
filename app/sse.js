@@ -28,9 +28,7 @@ const SSE_RESPONSE_HEADER_DEFAULT = {
   'Access-Control-Allow-Origin': 'header',
   'Access-Control-Allow-Credentials': 'true',
 };
-
 const SSE_RESPONSE_HEADER = { ...SSE_RESPONSE_HEADER_DEFAULT, ...sseHeader };
-console.log('SSE_RESPONSE_HEADER', SSE_RESPONSE_HEADER);
 
 /**
  * userId 구하기

@@ -64,6 +64,9 @@ Alert으로부터 [POST] http(s)://[Noti Server URL]/webNotification 로 노티 
         websocket 접속 코드 비활성화
         webNotifyProcess, sancProcess 함수(eventSourceClient.js)는 재사용 가능
 
+    jhoms/conf/jhomscfg.xml
+        <property name="jhoms.system.refresh_server" value="https://lucy.handysoft.co.kr:3443" />
+
 ### nodejs
 
     # install node, npm, yarn
