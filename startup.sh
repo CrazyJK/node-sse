@@ -6,7 +6,7 @@ PID_FILE="./noti.pid"
 LOG_DIR="./logs"
 SSE_NOHUP_LOG="$LOG_DIR/nohup.log"
 
-RUN_CMD="node ./app"
+RUN_CMD="node ./app Notificator_SSE "
 
 if [ -f $PID_FILE ]; then
 	echo "Notificator SSE Server is Already Running!!"
