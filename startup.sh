@@ -13,7 +13,7 @@ if [ -f $PID_FILE ]; then
 	exit 1
 else
 	echo "Notificator SSE Server initializing..."
-	nohup sh -c "exec $RUN_CMD >>$SSE_NOHUP_LOG 2>&1" >/dev/null &
+	nohup sh -c "exec $RUN_CMD >> $SSE_NOHUP_LOG 2>&1" > /dev/null &
 	echo $! > $PID_FILE
 	echo "Notificator SSE Server is running pid="`cat $PID_FILE`
 fi
