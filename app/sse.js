@@ -1,4 +1,6 @@
-/* Server-Sent-Event */
+/**
+ * Server-Sent-Event 
+ */
 
 /**
  * 사용자ID와 response 기억
@@ -10,6 +12,7 @@ const logLevel = config.get('server.log.level');
 const sseHeartbeat = config.get('sse.heartbeat');
 const sseHeader = config.get('sse.header');
 
+// set logger
 const log = require('tracer').dailyfile({
   root: './logs',
   maxLogFiles: 10,
@@ -105,7 +108,7 @@ const accept = (req, res, next) => {
 };
 
 /**
- * alert으로 부터 메시지 수신
+ * HSO alert으로 부터 메시지 수신
  * sse로 메시지 발행
  * @param {*} req request
  * @param {*} res response

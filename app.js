@@ -1,3 +1,7 @@
+/**
+ * Notificator SSE App
+ */
+
 const http = require('http');
 const https = require('https');
 const http2 = require('http2');

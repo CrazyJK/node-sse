@@ -1,3 +1,7 @@
+/**
+ * hip/htdocs/webnotify/eventSourceClient.js
+ * 그룹웨어에 추가될 소스
+ */
 $(document).ready(function () {
 	//노티파이사용 이고 웹알림사용 일때만 허용한다.
 	if (!useNotify || !useWebNotify) {

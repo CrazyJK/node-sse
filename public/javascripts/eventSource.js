@@ -1,3 +1,9 @@
+/**
+ * public/index.html의 스크립트
+ * 
+ * 접속 테스트 및 사용자 목록 조회
+ */
+
 let tmpUserNumber = 0;
 
 function callMultiSse() {
