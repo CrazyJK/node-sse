@@ -65,10 +65,11 @@ const accept = (req, res, next) => {
   }
 
   const userKey = userId + '_' + Date.now();
+  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
   // Stores this connection
   userMap.set(userKey, { res, lastInteraction: Date.now() });
-  log.debug('connect', userKey);
+  log.debug('connect', userKey, ip);
 
   // Writes response header.
   res.writeHead(200, SSE_RESPONSE_HEADER);
