@@ -1,12 +1,12 @@
 # Notificator SSE Server
 
-nodejs 서버
+base: nodejs + express
 
 SSE(Server-Send-Event) 프로토콜로 노티 전달
 
 ## 노티 구독
 
-사용자(client)는 http://[Noti Server URL]/sse 로 접속
+사용자(client)는 `http://[Noti Server URL]/sse` 로 접속
 
 ```js
 var eventSource = new EventSource('http://[Noti Server URL]/sse', {
@@ -26,13 +26,13 @@ eventSource.addEventListener('appr', (e) => {
 
 ## 노티 발행
 
-Alert으로부터 [POST] http(s)://[Noti Server URL]/webNotification 로 노티 수령
+Alert으로부터 [POST] `http(s)://[Noti Server URL]/webNotification` 로 노티 수령
 
 내용 parsing 후 접속된 사용자에게 노티 발행
 
 ### 노티 종류
 
-1. appr from 한글클라이언트
+1. `appr` from 한글클라이언트
 
 ```
     content-type: application/x-www-form-urlencoded; charset=UTF-8
@@ -41,7 +41,7 @@ Alert으로부터 [POST] http(s)://[Noti Server URL]/webNotification 로 노티 
         &data={"command":"refresh"}
 ```
 
-2. notify from Alert
+2. `notify` from Alert
 
 ```
     content-type: application/x-www-form-urlencoded
@@ -54,17 +54,18 @@ Alert으로부터 [POST] http(s)://[Noti Server URL]/webNotification 로 노티 
 
 ### 그룹웨어 수정
 
-    js 추가
+    [js 추가]
         cp ./public/javascripts/eventSourceClient.js ~/hip/htdocs/webnotify/eventSourceClient.js
+        cp ./public/javascripts/eventsource.min.js ~/hip/htdocs/webnotify/eventsource.min.js // EvenetSource Polyfill for IE
 
-    htdocs/jsp/user/header-com.jsp
+    [htdocs/jsp/user/header-com.jsp]
     	<script type="text/javascript" src="/webnotify/eventSourceClient.js?v=100105"></script>
 
-    htdocs/webnotify/webNotifyClient.js
+    [htdocs/webnotify/webNotifyClient.js]
         websocket 접속 코드 비활성화
         webNotifyProcess, sancProcess 함수(eventSourceClient.js)는 재사용 가능
 
-    jhoms/conf/jhomscfg.xml
+    [jhoms/conf/jhomscfg.xml]
         <property name="jhoms.system.refresh_server" value="https://lucy.handysoft.co.kr:3443" />
 
 ### nodejs
@@ -82,16 +83,29 @@ Alert으로부터 [POST] http(s)://[Noti Server URL]/webNotification 로 노티 
 ```json
 {
   "server": {
-    "port": 3000 // 노티 서버 port 설정
+    "available-protocols": [
+      // 선택 가능한 프로토콜 목록
+      "http",
+      "https",
+      "http2"
+    ],
+    "protocol": "http", // 사용할 프로토콜
+    "port": 3000, // 서버 포트
+    "certificates": {
+      // 프로토콜로 https, http2 를 선택했을때 사용할 인증서
+      "ca": "cert/***.crt",
+      "key": "cert/***.key",
+      "cert": "cert/***.crt"
+    },
+    "log": {
+      "level": "debug" // 로그(logs/sse.log) 레벨
+    }
   },
-  "header": {
-    "Access-Control-Allow-Origin": "http://123.212.190.178:11000" // 그룹웨어 URL 설정. CORS
-  },
-  "log": {
-    "level": "info" // 로그(logs/sse.log) 레벨
-  },
-  "heartbeat": {
-    "activate": false // 정기적으로 ping을 보낼지 여부
+  "sse": {
+    "header": {
+      "Access-Control-Allow-Origin": "http://123.212.190.178:11000" // 그룹웨어 서버 URL for CORS
+    },
+    "heartbeat": true // 클라이언트에게 정기적으로 ping을 보낼지 여부. 55초
   }
 }
 ```
@@ -99,24 +113,39 @@ Alert으로부터 [POST] http(s)://[Noti Server URL]/webNotification 로 노티 
 ### 기동 / 중지
 
     $ ./startup.sh
+    Notificator SSE Server initializing...
+    nohup: redirecting stderr to stdout
+    Notificator SSE Server is running pid=367433
+
     $ ./shutdown.sh
+    Shutting down Notificator SSE Server: 161353
+
+### 프로세스 확인
+
+    $ ps -ef | grep SSE
+    handy     375067       1  0 10:38 pts/2    00:00:00 node ./app Notificator_SSE
 
 ### 로그
 
     ./log/access.log
     ./log/sse.log
 
-## Issue
+## 모니터링
 
-Alert에서 동일 메시지를 2번씩 송신함
+### 접속 테스트 및 접속자 목록 확인.
 
-eventSourceClient.js webNotifyProcess 함수에서 중복에 대해 처리는 하고 있으나, 불필요
+`http://[Noti Server URL]/`
 
-## 서버 모니터링
+### 포트 접속 수 확인
 
-접속 테스트 및 접속자 목록 확인
+    $ netstat -na | grep :3443
+    tcp6       0      0 :::3443                 :::*                    LISTEN
+    tcp6       0      0 123.212.190.178:3443    10.30.7.172:59928       ESTABLISHED
+    tcp6       0      0 123.212.190.178:3443    10.30.7.189:60518       ESTABLISHED
+    tcp6       0      0 123.212.190.178:3443    10.30.7.180:55980       ESTABLISHED
+    tcp6       0      0 123.212.190.178:3443    10.30.7.207:52131       ESTABLISHED
 
-http://[Noti Server URL]/
+windows: `netstat -ano | findstr :3001`
 
 ## REF
 
@@ -127,11 +156,3 @@ https://ijbgo.tistory.com/26
 ### eventsource polyfill
 
 https://cdnjs.com/libraries/eventsource-polyfill
-
-### 포트 접속 수 확인
-
-    windows
-        netstat -ano | findstr :3001
-
-    linux
-        netstat -na | grep :443
