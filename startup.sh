@@ -1,6 +1,7 @@
 #!/bin/sh
 
 export NODE_ENV=production
+# export NODE_ENV=development
 
 PID_FILE="./noti.pid"
 LOG_DIR="./logs"

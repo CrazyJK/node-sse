@@ -1,16 +1,16 @@
 {
   "server": {
-    "protocol": "http2",
-    "port": 3443,
+    "protocol": "http",
+    "port": 11005,
     "certificates": {
-      "ca": "cert/rootCA.crt",
-      "key": "cert/kamoru.jk.key",
-      "cert": "cert/kamoru.jk.crt"
+      "ca": null,
+      "key": null,
+      "cert": null
     }
   },
   "sse": {
     "header": {
-      "Access-Control-Allow-Origin": "http://localhost:11000"
+      "Access-Control-Allow-Origin": "http://123.212.190.178:11000"
     },
     "heartbeat": true
   }

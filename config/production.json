@@ -8,7 +8,7 @@
       "cert": "cert/STAR.handysoft.co.kr.crt"
     },
     "log": {
-      "level": "debug"
+      "level": "info"
     }
   },
   "sse": {
