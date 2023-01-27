@@ -1,10 +1,8 @@
-# Notificator SSE Server
+# 개요
 
-base: nodejs + express
+SSE(Server-Send-Event) 프로토콜을 이용하여, 그룹웨어 노티 전달
 
-SSE(Server-Send-Event) 프로토콜로 노티 전달
-
-## 노티 구독
+## 노티 구독(Client)
 
 사용자(client)는 `http://[Noti Server URL]/sse` 로 접속
 
@@ -24,7 +22,7 @@ eventSource.addEventListener('appr', (e) => {
 
 서버는 cookie의 userID 값으로 사용자 정보 획득
 
-## 노티 발행
+## 노티 발행(Server)
 
 Alert으로부터 [POST] `http(s)://[Noti Server URL]/webNotification` 로 노티 수령
 
@@ -50,6 +48,12 @@ Alert으로부터 [POST] `http(s)://[Noti Server URL]/webNotification` 로 노�
     * k=v 형식의 form-data로 전달되기 때문에 key만 추출하여 사용해야 함
 ```
 
+# 모듈
+
+## 서버
+
+nodejs + express 기반
+
 ## 배포
 
 ### 그룹웨어 수정
@@ -68,13 +72,13 @@ Alert으로부터 [POST] `http(s)://[Noti Server URL]/webNotification` 로 노�
     [jhoms/conf/jhomscfg.xml]
         <property name="jhoms.system.refresh_server" value="https://lucy.handysoft.co.kr:3443" />
 
-### nodejs
+### node 설정
 
     # install node, npm, yarn
 
     $ yarn install
 
-### 설정
+### 서버 설정
 
 - config/default.json (공통)
 - config/development.json (개발)
